@@ -1,0 +1,14 @@
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ○ Compiling / ...
+ ✓ Compiled / in 7.2s (880 modules)
+prisma:query SELECT `main`.`Article`.`id`, `main`.`Article`.`title`, `main`.`Article`.`slug`, `main`.`Article`.`body`, `main`.`Article`.`excerpt`, `main`.`Article`.`coverImage`, `main`.`Article`.`category`, `main`.`Article`.`readTime`, `main`.`Article`.`isPremium`, `main`.`Article`.`publishedAt`, `main`.`Article`.`createdAt` FROM `main`.`Article` WHERE `main`.`Article`.`publishedAt` IS NOT NULL ORDER BY `main`.`Article`.`publishedAt` DESC LIMIT ? OFFSET ?
+prisma:query SELECT COUNT(*) FROM (SELECT `main`.`Course`.`id` FROM `main`.`Course` WHERE 1=1 LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) FROM (SELECT `main`.`Video`.`id` FROM `main`.`Video` WHERE 1=1 LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT COUNT(*) FROM (SELECT `main`.`Enrollment`.`id` FROM `main`.`Enrollment` WHERE 1=1 LIMIT ? OFFSET ?) AS `sub`
+prisma:query SELECT `main`.`Video`.`id`, `main`.`Video`.`title`, `main`.`Video`.`description`, `main`.`Video`.`muxAssetId`, `main`.`Video`.`muxPlaybackId`, `main`.`Video`.`thumbnail`, `main`.`Video`.`duration`, `main`.`Video`.`category`, `main`.`Video`.`tags`, `main`.`Video`.`isPremium`, `main`.`Video`.`createdAt` FROM `main`.`Video` WHERE 1=1 ORDER BY `main`.`Video`.`createdAt` DESC LIMIT ? OFFSET ?
+ ✓ Compiled in 566ms (430 modules)
+[?25h
