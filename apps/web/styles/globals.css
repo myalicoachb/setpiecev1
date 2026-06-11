@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 98%;
+    --border: 0 0% 12%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 210 100% 50%;
+    --destructive: 0 84% 60%;
+  }
+
+  * {
+    @apply border-gray-800;
+  }
+
+  body {
+    @apply bg-black text-gray-100 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  html[dir="rtl"] {
+    direction: rtl;
+  }
+
+  html[dir="ltr"] {
+    direction: ltr;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-950;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-800;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-700;
+  }
+}
+
+@layer components {
+  .pitch-grid {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}

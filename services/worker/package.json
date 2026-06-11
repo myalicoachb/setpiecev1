@@ -1,0 +1,16 @@
+{
+  "name": "@setpiece/worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "start:dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.14",
+    "bullmq": "^5.7",
+    "ioredis": "^5",
+    "@mux/mux-node": "^8",
+    "tsx": "^4"
+  }
+}
