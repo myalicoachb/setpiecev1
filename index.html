@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SetPiece - المنصة الذكية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Animated background */
+    .bg-grid {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+    .bg-glow {
+      position: fixed;
+      top: -30%; left: -20%;
+      width: 80%; height: 80%;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      z-index: 0;
+      animation: float 12s ease-in-out infinite;
+    }
+    .bg-glow-2 {
+      position: fixed;
+      bottom: -30%; right: -20%;
+      width: 80%; height: 80%;
+      background: radial-gradient(circle, rgba(168,85,247,0.10) 0%, transparent 70%);
+      z-index: 0;
+      animation: float 15s ease-in-out infinite reverse;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.05); }
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    /* Navbar */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      color: #a0a0b0;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      padding: 10px 24px;
+      border-radius: 10px;
+      color: #fff !important;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(99,102,241,0.35); }
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: #a5b4fc;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #9090a8;
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(99,102,241,0.4); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #e0e0e0;
+      padding: 14px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 60px 0;
+      border-top: 1px solid rgba(99, 102, 241, 0.08);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.08);
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label { color: #9090a8; font-size: 15px; margin-top: 4px; }
+    /* Features */
+    .features {
+      padding: 80px 0;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .features .subtitle {
+      text-align: center;
+      color: #9090a8;
+      font-size: 17px;
+      margin-bottom: 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .feature-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+    .feature-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      color: #9090a8;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    /* Tech Stack */
+    .tech {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .tech h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+    .tech-grid {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .tech-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 20px 28px;
+      font-weight: 600;
+      font-size: 15px;
+      color: #c0c0d0;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tech-item:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.05);
+    }
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(99, 102, 241, 0.08);
+      padding: 32px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p { color: #606070; font-size: 14px; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: #606070;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #a0a0b0; }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .hero p { font-size: 16px; }
+      .stats { grid-template-columns: 1fr; gap: 16px; }
+      .stat-number { font-size: 28px; }
+      nav { flex-direction: column; gap: 16px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+      .features h2 { font-size: 28px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 28px; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="container">
+    <nav>
+      <a href="/" class="logo">
+        <span class="logo-icon">SP</span>
+        SetPiece
+      </a>
+      <div class="nav-links">
+        <a href="#features">المميزات</a>
+        <a href="#tech">التقنيات</a>
+        <a href="https://github.com/myalicoachb/setpiecev1" target="_blank">GitHub</a>
+        <a href="https://github.com/myalicoachb/setpiecev1" class="nav-cta">عرض المشروع</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-badge">
+        <span>⚡</span> منصة حديثة بتقنيات متطورة
+      </div>
+      <h1>منصة <span>SetPiece</span><br>للبنية التحتية الذكية</h1>
+      <p>منصة متكاملة مبنية بأحدث التقنيات لتقديم تجربة فائقة في الأداء والتطوير. مشروع مونوريبو متعدد الحزم والخدمات.</p>
+      <div class="hero-buttons">
+        <a href="https://github.com/myalicoachb/setpiecev1" target="_blank" class="btn-primary">
+          <span>📦</span> تصفح الكود
+        </a>
+        <a href="#features" class="btn-secondary">
+          <span>✨</span> اكتشف المميزات
+        </a>
+      </div>
+    </section>
+
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-number">Turborepo</div>
+        <div class="stat-label">بنية مونوريبو متكاملة</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">TypeScript</div>
+        <div class="stat-label">كود آمن وقابل للتوسع</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">pnpm</div>
+        <div class="stat-label">إدارة حزم فائقة السرعة</div>
+      </div>
+    </div>
+
+    <section class="features" id="features">
+      <h2>مميزات المنصة</h2>
+      <p class="subtitle">كل ما تحتاجه لبناء وتشغيل تطبيقات حديثة</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(99,102,241,0.12)">📦</div>
+          <h3>هندسة مونوريبو</h3>
+          <p>إدارة متعددة الحزم والخدمات في مستودع واحد باستخدام Turborepo لأقصى كفاءة في البناء والتنسيق.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(168,85,247,0.12)">⚡</div>
+          <h3>أداء فائق</h3>
+          <p>بناء محسن مع تخزين مؤقت ذكي وتنفيذ متوازي للمهام عبر جميع الحزم والخدمات.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(236,72,153,0.12)">🔒</div>
+          <h3>TypeScript</h3>
+          <p>كود مكتوب بالكامل بـ TypeScript لتجربة تطوير آمنة مع اكتشاف الأخطاء في وقت الترجمة.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(52,211,153,0.12)">🌐</div>
+          <h3>خدمات متعددة</h3>
+          <p>هيكل منظم من التطبيقات والحزم والخدمات لاستقلالية تامة بين المكونات.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(251,191,36,0.12)">📋</div>
+          <h3>Prisma ORM</h3>
+          <p>قاعدة بيانات متكاملة مع Prisma لتوليد الاستعلامات والترحيل والبذر بسهولة.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(99,102,241,0.12)">🚀</div>
+          <h3>جاهز للإنتاج</h3>
+          <p>إعدادات متكاملة للتطوير والإنتاج مع سكربتات مضمنة للبناء والترحيل والتهيئة.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="tech" id="tech">
+      <h2>التقنيات المستخدمة</h2>
+      <div class="tech-grid">
+        <span class="tech-item">TypeScript</span>
+        <span class="tech-item">Turborepo</span>
+        <span class="tech-item">pnpm</span>
+        <span class="tech-item">Prisma</span>
+        <span class="tech-item">Node.js ≥20</span>
+        <span class="tech-item">Next.js</span>
+        <span class="tech-item">Express</span>
+        <span class="tech-item">PostgreSQL</span>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 SetPiece Platform. جميع الحقوق محفوظة.</p>
+      <div class="footer-links">
+        <a href="https://github.com/myalicoachb/setpiecev1" target="_blank">GitHub</a>
+        <a href="#">سياسة الخصوصية</a>
+        <a href="#">اتصل بنا</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
